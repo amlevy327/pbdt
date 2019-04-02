@@ -12,11 +12,21 @@ class V1::FoodsController < ApplicationController
   end
 
   def create
-    @food = current_user.foods.new(food_params)
+    @food = current_user.foods.new(new_food_params)
     if @food.save
       render json: @food, status: :ok
     else
       render json: @food.errors, status: :unprocessable_identity
+    end
+  end
+
+  def update
+    current_user.foods.where(id: params[:id]).update(update_food_params)
+    if current_user.save
+      @food = current_user.foods.where(id: params[:id])
+      render json: @food, status: :ok
+    else
+      head(:unprocessable_identity)
     end
   end
 
@@ -31,7 +41,17 @@ class V1::FoodsController < ApplicationController
 
   private
   
-  def food_params
-    params.require(:food).permit(:name, :variety)
+  def new_food_params
+    params.require(:food).permit(:name, :variety, :ss_amt_wt_t, :ss_unit_wt_t, :ss_amt_vol_t, :ss_unit_vol_t,
+      :beans_t, :berries_t, :other_fruits_t, :cruciferous_vegetables_t, :greens_t,
+      :other_vegetables_t, :flaxseeds_t, :nuts_t, :turmeric_t, :whole_grains_t, :other_seeds_t,
+      :cals_t, :fat_t, :carbs_t, :protein_t)
+  end
+
+  def update_food_params
+    params.require(:food).permit(:ss_amt_wt_t, :ss_unit_wt_t, :ss_amt_vol_t, :ss_unit_vol_t,
+      :beans_t, :berries_t, :other_fruits_t, :cruciferous_vegetables_t, :greens_t,
+      :other_vegetables_t, :flaxseeds_t, :nuts_t, :turmeric_t, :whole_grains_t, :other_seeds_t,
+      :cals_t, :fat_t, :carbs_t, :protein_t)
   end
 end

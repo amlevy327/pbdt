@@ -6,13 +6,13 @@ Rails.application.routes.draw do
   namespace :v1, defaults: { format: :json } do
     
     resource :sessions, only: [:create, :destroy]
-    resources :users, only: [:create]
+    resources :users, only: [:create, :update]
     resources :items, only: [:index, :show, :create]
     resources :foods
-    resources :recipes
+    # resources :recipes
     # resources :recipes do 
     #   resources :ingredients
     # end
-    resources :ingredients
+    # resources :ingredients
   end
 end
