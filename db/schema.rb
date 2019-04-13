@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_223614) do
     t.string "ss_unit_vol_t"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "beans_t", defbault: "0.0"
+    t.decimal "beans_t", default: "0.0"
     t.decimal "berries_t", default: "0.0"
     t.decimal "other_fruits_t", default: "0.0"
     t.decimal "cruciferous_vegetables_t", default: "0.0"

@@ -6,5 +6,6 @@ class FoodSerializer < ActiveModel::Serializer
     :cals_t, :fat_t, :carbs_t, :protein_t
   ]
 
+  attribute('created_at') { object.created_at.iso8601(3).to_s }
   attribute('updated_at') { object.updated_at.iso8601(3).to_s }
 end
