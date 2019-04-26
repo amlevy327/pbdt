@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_16_233814) do
+ActiveRecord::Schema.define(version: 2019_04_26_151433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,21 +126,21 @@ ActiveRecord::Schema.define(version: 2019_04_16_233814) do
     t.datetime "updated_at", null: false
     t.string "authentication_token", limit: 30
     t.string "name"
-    t.decimal "beans_g", default: "0.0"
-    t.decimal "berries_g", default: "0.0"
-    t.decimal "other_fruits_g", default: "0.0"
-    t.decimal "cruciferous_vegetables_g", default: "0.0"
-    t.decimal "greens_g", default: "0.0"
-    t.decimal "other_vegetables_g", default: "0.0"
-    t.decimal "flaxseeds_g", default: "0.0"
-    t.decimal "nuts_g", default: "0.0"
-    t.decimal "turmeric_g", default: "0.0"
-    t.decimal "whole_grains_g", default: "0.0"
-    t.decimal "other_seeds_g", default: "0.0"
-    t.decimal "cals_g", default: "0.0"
-    t.decimal "fat_g", default: "0.0"
-    t.decimal "carbs_g", default: "0.0"
-    t.decimal "protein_g", default: "0.0"
+    t.decimal "beans_g", default: "3.0"
+    t.decimal "berries_g", default: "1.0"
+    t.decimal "other_fruits_g", default: "3.0"
+    t.decimal "cruciferous_vegetables_g", default: "1.0"
+    t.decimal "greens_g", default: "2.0"
+    t.decimal "other_vegetables_g", default: "2.0"
+    t.decimal "flaxseeds_g", default: "1.0"
+    t.decimal "nuts_g", default: "1.0"
+    t.decimal "turmeric_g", default: "1.0"
+    t.decimal "whole_grains_g", default: "3.0"
+    t.decimal "other_seeds_g", default: "1.0"
+    t.decimal "cals_g", default: "2000.0"
+    t.decimal "fat_g", default: "78.0"
+    t.decimal "carbs_g", default: "250.0"
+    t.decimal "protein_g", default: "75.0"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
