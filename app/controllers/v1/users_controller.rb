@@ -12,19 +12,6 @@ class V1::UsersController < ApplicationController
   end
 
   def update
-
-    # if params(:id) == current_user.id
-    #   current_user.update(update_user_params)
-
-    #   if current_user.save
-    #     render json: current_user, status: :ok
-    #   else
-    #     render json: current_user.errors, status: :unprocessable_identity
-    #   end
-    # else
-    #   render status: :unprocessable_identity
-    # end
-
     current_user.update(update_user_params)
 
     if current_user.save
