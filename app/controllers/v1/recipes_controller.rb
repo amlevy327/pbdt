@@ -1,6 +1,11 @@
 class V1::RecipesController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+    @recipe = current_user.recipes.where(id: params[:id])
+    render json: @recipe, status: :ok
+  end
+
   def index
     # if current_user
     #   @recipe = current_user.recipes.order('updated_at DESC')
@@ -37,6 +42,9 @@ class V1::RecipesController < ApplicationController
   private
 
   def recipe_params
-    params.require(:recipe).permit(:name, :servings)
+    params.require(:recipe).permit(
+      :name, :servings, :beans, :berries, :other_fruits, :cruciferous_vegetables, :greens,
+      :other_vegetables, :flaxseeds, :nuts, :turmeric, :whole_grains, :other_seeds,
+      :cals, :fat, :carbs, :protein)
   end
 end
