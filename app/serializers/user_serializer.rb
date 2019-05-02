@@ -8,4 +8,5 @@ class UserSerializer < ActiveModel::Serializer
    
   has_many :foods
   has_many :recipes
+  has_many :ingredients
 end

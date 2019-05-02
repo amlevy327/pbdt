@@ -7,13 +7,6 @@ class V1::RecipesController < ApplicationController
   end
 
   def index
-    # if current_user
-    #   @recipe = current_user.recipes.order('updated_at DESC')
-    #   render json: @recipe, status: :ok
-    # else
-    #   head(:unauthorized)
-    # end
-
     @recipe = current_user.recipes.order('updated_at DESC')
     render json: @recipe, status: :ok
     
