@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_035741) do
+ActiveRecord::Schema.define(version: 2019_05_08_165254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2019_04_30_035741) do
     t.decimal "carbs", default: "0.0"
     t.decimal "protein", default: "0.0"
     t.string "variety"
+    t.decimal "iron", default: "0.0"
   end
 
   create_table "recipes", force: :cascade do |t|
