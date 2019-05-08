@@ -5,12 +5,6 @@ class V1::IngredientsController < ApplicationController
     @recipe = current_user.recipes.find(params[:recipe_id])
     @ingredient = @recipe.ingredients.new(ingredient_params)
     
-    # if @ingredient.save
-    #   render json: @ingredient, status: :created
-    # else
-    #   render json: @ingredient.errors, status: :unprocessable_identity
-    # end
-
     if @ingredient.save
       
       update_recipe
@@ -21,16 +15,37 @@ class V1::IngredientsController < ApplicationController
         raise ActiveRecord::Rollback
         render json: @recipe.errors, status: :unprocessable_identity
       end
-
     else
       render json: @ingredient.errors, status: :unprocessable_identity
     end
   end
 
   def update
+    current_user.ingredients.where(id: params[:id]).update(ingredient_params)
+    if current_user.save
+      
+      @recipe = current_user.recipes.find(params[:recipe_id])
+      update_recipe
+
+      if @recipe.save
+        @ingredient = current_user.ingredients.where(id: params[:id])
+        render json: @ingredient, status: :ok
+      else
+        raise ActiveRecord::Rollback
+        render json: @recipe.errors, status: :unprocessable_identity
+      end
+    else
+      head(:unprocessable_identity)
+    end
   end
 
   def destroy
+    @ingredient = current_user.recipes.find(params[:recipe_id]).ingredients.find(params[:id])
+    if @ingredient.destroy
+      render json: @ingredient, status: :ok
+    else
+      head(:unprocessable_identity)
+    end
   end
 
   private
@@ -54,9 +69,9 @@ class V1::IngredientsController < ApplicationController
   end
 
   def ingredient_params
-    params.require(:ingredient).permit(:recipe_id, :name, :variety, :servings_t, 
-      :ss_amt_wt_t, :ss_amt_vol_t, :beans_t, :berries_t, :other_fruits_t,
-      :cruciferous_vegetables_t, :greens_t, :other_vegetables_t, :flaxseeds_t,
+    params.require(:ingredient).permit(:id, :recipe_id, :name, :variety, :servings_t, 
+      :ss_amt_wt_t, :ss_amt_vol_t, :ss_unit_wt_t, :ss_unit_vol_t, :beans_t, :berries_t,
+      :other_fruits_t, :cruciferous_vegetables_t, :greens_t, :other_vegetables_t, :flaxseeds_t,
       :nuts_t, :turmeric_t, :whole_grains_t, :other_seeds_t, :cals_t, :fat_t,
       :carbs_t, :protein_t)
   end

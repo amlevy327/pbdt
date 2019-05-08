@@ -22,11 +22,20 @@ class V1::RecipesController < ApplicationController
     end
   end
 
-  def destroy
-    @recipe = current_user.recipes.where(id: params[:id]).first
+  def update
+    current_user.recipes.where(id: params[:id]).update(recipe_params)
+    if current_user.save
+      @recipe = current_user.recipes.where(id: params[:id])
+      render json: @recipe, status: :ok
+    else
+      head(:unprocessable_identity)
+    end
+  end
 
+  def destroy
+    @recipe = current_user.recipes.find(params[:id])
     if @recipe.destroy
-      head(:ok)
+      render json: @recipe, status: :ok
     else
       head(:unprocessable_identity)
     end
@@ -36,7 +45,7 @@ class V1::RecipesController < ApplicationController
 
   def recipe_params
     params.require(:recipe).permit(
-      :name, :servings, :beans, :berries, :other_fruits, :cruciferous_vegetables, :greens,
+      :id, :name, :servings, :beans, :berries, :other_fruits, :cruciferous_vegetables, :greens,
       :other_vegetables, :flaxseeds, :nuts, :turmeric, :whole_grains, :other_seeds,
       :cals, :fat, :carbs, :protein)
   end
