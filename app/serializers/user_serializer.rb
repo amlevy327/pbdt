@@ -1,4 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
+  
   attributes [
     :id, :name, :email, :authentication_token,
     :beans_g, :berries_g, :other_fruits_g, :cruciferous_vegetables_g, :greens_g,

@@ -1,4 +1,5 @@
 class FoodSerializer < ActiveModel::Serializer
+  
   attributes [
     :id, :name, :variety, :servings_t, :log_date,
     :ss_amt_wt_t, :ss_unit_wt_t, :ss_amt_vol_t, :ss_unit_vol_t,

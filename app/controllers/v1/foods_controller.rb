@@ -33,7 +33,7 @@ class V1::FoodsController < ApplicationController
   def destroy
     @food = current_user.foods.find(params[:id])
     if @food.destroy
-      head(:ok)
+      render json: @food, status: :ok
     else
       head(:unprocessable_identity)
     end

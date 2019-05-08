@@ -9,5 +9,5 @@ class RecipeSerializer < ActiveModel::Serializer
 
   attribute('updated_at') { object.updated_at.iso8601(3).to_s }
   
-  has_many :ingredients
+  # has_many :ingredients
 end
