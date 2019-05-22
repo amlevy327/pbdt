@@ -15,7 +15,7 @@ class V1::UsersController < ApplicationController
     current_user.update(update_user_params)
 
     if current_user.save
-      render json: current_user, status: :ok
+      render json: current_user.as_json(except: [:authentication_token]), status: :ok
     else
       render json: current_user.errors, status: :unprocessable_identity
     end
