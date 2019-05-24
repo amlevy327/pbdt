@@ -11,6 +11,16 @@ class V1::UsersController < ApplicationController
     end
   end
 
+  def verify
+    if current_user.email_verification_token == email_verification_token_param
+      current_user.verify_email!
+      # head :ok
+      render json: current_user, status: :ok
+    else
+      head :bad_request
+    end
+  end
+
   def update
     current_user.update(update_user_params)
 
@@ -26,7 +36,11 @@ class V1::UsersController < ApplicationController
 
   def new_user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end 
+  end
+
+  def email_verification_token_param
+    params[:email_verification_token].to_s
+  end
 
   def update_user_params
     params.require(:user).permit(:beans_g, :berries_g, :other_fruits_g, :cruciferous_vegetables_g,
