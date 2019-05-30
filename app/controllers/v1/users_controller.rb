@@ -5,6 +5,7 @@ class V1::UsersController < ApplicationController
     @user = User.new(new_user_params)
     
     if @user.save
+      UserMailer.verification_email(@user).deliver_later
       render json: @user, status: :ok
     else
       head(:unprocessable_identity)
