@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :update] do
       collection do
         post :verify
+        post :resend_verification_email
       end
     end 
     resources :items, only: [:index, :show, :create]
