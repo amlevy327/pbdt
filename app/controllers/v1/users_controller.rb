@@ -13,12 +13,21 @@ class V1::UsersController < ApplicationController
 
   def verify
     if current_user.email_verification_token == email_verification_token_param
-      current_user.verify_email!
-      # head :ok
-      render json: current_user, status: :ok
+      current_user.verify_email
+      if current_user.save
+        render json: current_user, status: :ok
+      else
+        head :unprocessable_identity
+      end
+      # render json: current_user, status: :ok
     else
       head :bad_request
     end
+  end
+
+  def resend_verification_email
+    current_user.refresh_email_verification_token
+    render json: current_user, status: :ok
   end
 
   def update

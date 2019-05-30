@@ -25,8 +25,12 @@ class User < ApplicationRecord
     self.email_verification_token = generate_email_verification_token if email_verification_token.nil?
   end
 
-  def verify_email!
+  def verify_email
     self.email_verified = true
     self.email_verification_token = nil
+  end
+
+  def refresh_email_verification_token
+    self.update(email_verification_token: generate_email_verification_token)
   end
 end
