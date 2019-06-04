@@ -33,4 +33,8 @@ class User < ApplicationRecord
   def refresh_email_verification_token
     self.update(email_verification_token: generate_email_verification_token)
   end
+
+  def verify_agreement
+    self.agreement = true
+  end
 end
