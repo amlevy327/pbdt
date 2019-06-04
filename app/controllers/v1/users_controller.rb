@@ -2,13 +2,18 @@ class V1::UsersController < ApplicationController
   before_action :authenticate_user!, only: [:update]
 
   def create
-    @user = User.new(new_user_params)
-    
-    if @user.save
-      UserMailer.verification_email(@user).deliver_later
-      render json: @user, status: :ok
+
+    if User.exists?(email: params[:user][:email])
+      head(:conflict)
     else
-      head(:unprocessable_identity)
+      @user = User.new(new_user_params)
+    
+      if @user.save
+        UserMailer.verification_email(@user).deliver_later
+        render json: @user, status: :ok
+      else
+        head(:unprocessable_identity)
+      end
     end
   end
 
