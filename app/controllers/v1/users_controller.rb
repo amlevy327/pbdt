@@ -12,6 +12,15 @@ class V1::UsersController < ApplicationController
     end
   end
 
+  def agreement
+    current_user.verify_agreement
+    if current_user.save
+      render json: current_user, status: :ok
+    else
+      head :unprocessable_identity
+    end
+  end
+
   def verify
     if current_user.email_verification_token == email_verification_token_param
       current_user.verify_email
@@ -20,7 +29,6 @@ class V1::UsersController < ApplicationController
       else
         head :unprocessable_identity
       end
-      # render json: current_user, status: :ok
     else
       head :bad_request
     end
