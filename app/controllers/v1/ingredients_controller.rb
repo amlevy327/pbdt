@@ -4,11 +4,8 @@ class V1::IngredientsController < ApplicationController
   def create
     @recipe = current_user.recipes.find(params[:recipe_id])
     @ingredient = @recipe.ingredients.new(ingredient_params)
-    
     if @ingredient.save
-      
       update_recipe
-
       if @recipe.save
         render json: @ingredient, status: :created
       else
@@ -23,10 +20,8 @@ class V1::IngredientsController < ApplicationController
   def update
     current_user.ingredients.where(id: params[:id]).update(ingredient_params)
     if current_user.save
-      
       @recipe = current_user.recipes.find(params[:recipe_id])
       update_recipe
-
       if @recipe.save
         @ingredient = current_user.ingredients.where(id: params[:id])
         render json: @ingredient, status: :ok
@@ -35,7 +30,7 @@ class V1::IngredientsController < ApplicationController
         render json: @recipe.errors, status: :unprocessable_identity
       end
     else
-      head(:unprocessable_identity)
+      render json: current_user.errors, status: :unprocessable_identity
     end
   end
 
@@ -44,7 +39,7 @@ class V1::IngredientsController < ApplicationController
     if @ingredient.destroy
       render json: @ingredient, status: :ok
     else
-      head(:unprocessable_identity)
+      render json: @ingredient.errors, status: :unprocessable_identity
     end
   end
 
