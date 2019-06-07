@@ -26,7 +26,7 @@ class V1::FoodsController < ApplicationController
       @food = current_user.foods.where(id: params[:id])
       render json: @food, status: :ok
     else
-      head(:unprocessable_identity)
+      render json: current_user.errors, status: :unprocessable_identity
     end
   end
 
@@ -35,7 +35,7 @@ class V1::FoodsController < ApplicationController
     if @food.destroy
       render json: @food, status: :ok
     else
-      head(:unprocessable_identity)
+      render json: @food.errors, status: :unprocessable_identity
     end
   end
 

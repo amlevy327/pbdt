@@ -1,18 +1,17 @@
 class V1::UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:update]
+  before_action :authenticate_user!, except: [:create]
 
   def create
-
     if User.exists?(email: params[:user][:email])
-      head(:conflict)
+      message = ["message": "Email address taken"]
+      render json: message, status: :conflict
     else
       @user = User.new(new_user_params)
-    
       if @user.save
         UserMailer.verification_email(@user).deliver_later
         render json: @user, status: :ok
       else
-        head(:unprocessable_identity)
+        render json: @user.errors, status: :unprocessable_identity
       end
     end
   end
@@ -22,7 +21,7 @@ class V1::UsersController < ApplicationController
     if current_user.save
       render json: current_user, status: :ok
     else
-      head :unprocessable_identity
+      render json: current_user.errors, status: :unprocessable_identity
     end
   end
 
@@ -32,10 +31,11 @@ class V1::UsersController < ApplicationController
       if current_user.save
         render json: current_user, status: :ok
       else
-        head :unprocessable_identity
+        render json: current_user.errors, status: :unprocessable_identity
       end
     else
-      head :bad_request
+      message = ["message": "Incorrect email verification token"]
+      render json: message, status: :bad_request
     end
   end
 
@@ -46,13 +46,11 @@ class V1::UsersController < ApplicationController
 
   def update
     current_user.update(update_user_params)
-
     if current_user.save
       render json: current_user.as_json(except: [:authentication_token]), status: :ok
     else
       render json: current_user.errors, status: :unprocessable_identity
     end
-    
   end
 
   private
